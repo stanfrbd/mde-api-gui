@@ -26,6 +26,29 @@ Simple PowerShell GUI for Microsoft Defender for Endpoint API machine actions.
     * **Isolate**/Release device.
 5. Verify actions result with **Logs** text box.
 
+---
+
+### Note about CSV file
+
+The CSV file must have specific header named "Name"
+
+Example of valid CSV file:
+
+```
+Name
+machine1
+machine2.specific.domain
+machine3.another.domain
+```
+
+> [!WARNING]
+> The path of the CSV file must not start or end with `"` or `'`
+
+Example of valid path
+
+<img width="908" height="253" alt="image" src="https://github.com/user-attachments/assets/d7b455ce-8cc2-4d46-be06-d6a0d7c1071d" />
+
+
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
