@@ -163,7 +163,7 @@ $TitleActions.location = New-Object System.Drawing.Point(500, 20)
 $TitleActions.Font = 'Microsoft Sans Serif,12,style=Bold'
 
 $TagDeviceGroupBox = New-Object System.Windows.Forms.GroupBox
-$TagDeviceGroupBox.Location = New-Object System.Drawing.Point(500,40)
+$TagDeviceGroupBox.Location = New-Object System.Drawing.Point(500, 40)
 $TagDeviceGroupBox.width = 400
 $TagDeviceGroupBox.height = 50
 $TagDeviceGroupBox.Text = "Device tag"
@@ -191,7 +191,7 @@ $TagDeviceBtn.Visible = $true
 $TagDeviceGroupBox.Controls.AddRange(@($DeviceTag, $TagDeviceBtn))
 
 $ScanGroupBox = New-Object System.Windows.Forms.GroupBox
-$ScanGroupBox.Location = New-Object System.Drawing.Point(500,105)
+$ScanGroupBox.Location = New-Object System.Drawing.Point(500, 105)
 $ScanGroupBox.width = 400
 $ScanGroupBox.height = 50
 $ScanGroupBox.Text = "Scan mode"
@@ -274,60 +274,12 @@ $ReleaseFromIsolationBtn.Visible = $true
 
 $IsolateGroupBox.Controls.AddRange(@($IsolateRadioButton1, $IsolateRadioButton2, $IsolateDeviceBtn, $ReleaseFromIsolationBtn))
 
-$InputRadioBox = New-Object System.Windows.Forms.GroupBox
-$InputRadioBox.width = 880
-$InputRadioBox.height = 240
-$InputRadioBox.location = New-Object System.Drawing.Point(20, 290)
-$InputRadioBox.text = "2 - Select devices to perform action on"
-$InputRadioBox.Font = 'Microsoft Sans Serif,12,style=Bold'
-    
-$InputRadioButton1 = New-Object System.Windows.Forms.RadioButton
-$InputRadioButton1.width = 90
-$InputRadioButton1.height = 20
-$InputRadioButton1.location = New-Object System.Drawing.Point(20, 25)
-$InputRadioButton1.Checked = $true
-$InputRadioButton1.Enabled = $false
-$InputRadioButton1.Text = "AH Query"
-$InputRadioButton1.Font = 'Microsoft Sans Serif,10'
- 
-$InputRadioButton2 = New-Object System.Windows.Forms.RadioButton
-$InputRadioButton2.width = 140
-$InputRadioButton2.height = 20
-$InputRadioButton2.location = New-Object System.Drawing.Point(110, 25)
-$InputRadioButton2.Checked = $false
-$InputRadioButton2.Enabled = $false
-$InputRadioButton2.Text = "Computer Name(s)"
-$InputRadioButton2.Font = 'Microsoft Sans Serif,10'
- 
-$InputRadioButton3 = New-Object System.Windows.Forms.RadioButton
-$InputRadioButton3.width = 60
-$InputRadioButton3.height = 20
-$InputRadioButton3.location = New-Object System.Drawing.Point(265, 25)
-$InputRadioButton3.Checked = $false
-$InputRadioButton3.Enabled = $false
-$InputRadioButton3.Text = "CSV"
-$InputRadioButton3.Font = 'Microsoft Sans Serif,10'
-
-$QueryBox = New-Object system.Windows.Forms.TextBox
-$QueryBox.multiline = $true
-$QueryBox.text = $helpQueryBox 
-$QueryBox.width = 850
-$QueryBox.height = 120
-$QueryBox.location = New-Object System.Drawing.Point(20, 60)
-$QueryBox.ScrollBars = 'Vertical'
-$QueryBox.Font = $TextBoxFont
-$QueryBox.Visible = $true
-$QueryBox.Enabled = $false
-
-$RunQueryBtn = New-Object system.Windows.Forms.Button
-$RunQueryBtn.BackColor = $UnclickableColour
-$RunQueryBtn.text = "Run Query"
-$RunQueryBtn.width = 90
-$RunQueryBtn.height = 30
-$RunQueryBtn.location = New-Object System.Drawing.Point(20, 190)
-$RunQueryBtn.Font = 'Microsoft Sans Serif,10'
-$RunQueryBtn.ForeColor = "#ffffff"
-$RunQueryBtn.Visible = $true
+$InputCsvFileBox = New-Object System.Windows.Forms.GroupBox
+$InputCsvFileBox.width = 880
+$InputCsvFileBox.height = 240
+$InputCsvFileBox.location = New-Object System.Drawing.Point(20, 290)
+$InputCsvFileBox.text = "2 - Select devices to perform action on (CSV)"
+$InputCsvFileBox.Font = 'Microsoft Sans Serif,12,style=Bold'
 
 $GetDevicesFromQueryBtn = New-Object System.Windows.Forms.Button
 $GetDevicesFromQueryBtn.BackColor = $UnclickableColour
@@ -359,7 +311,43 @@ $ClearSelectedDevicesBtn.Font = 'Microsoft Sans Serif,10'
 $ClearSelectedDevicesBtn.ForeColor = "#ffffff"
 $ClearSelectedDevicesBtn.Visible = $false
 
-$InputRadioBox.Controls.AddRange(@($InputRadioButton1, $InputRadioButton2, $InputRadioButton3, $QueryBox, $RunQueryBtn, $GetDevicesFromQueryBtn, $SelectedDevicesBtn, $ClearSelectedDevicesBtn))
+# CSV file picker controls (shown when InputRadioButton3 is selected)
+$CsvPathBox = New-Object system.Windows.Forms.TextBox
+$CsvPathBox.multiline = $false
+$CsvPathBox.width = 700
+$CsvPathBox.height = 25
+$CsvPathBox.location = New-Object System.Drawing.Point(20, 60)
+$CsvPathBox.Font = $TextBoxFont
+$CsvPathBox.ReadOnly = $true
+$CsvPathBox.Enabled = $false
+
+$BrowseCsvBtn = New-Object system.Windows.Forms.Button
+$BrowseCsvBtn.BackColor = $UnclickableColour
+$BrowseCsvBtn.text = "Browse..."
+$BrowseCsvBtn.width = 90
+$BrowseCsvBtn.height = 25
+$BrowseCsvBtn.location = New-Object System.Drawing.Point(730, 60)
+$BrowseCsvBtn.Font = 'Microsoft Sans Serif,9'
+$BrowseCsvBtn.ForeColor = "#ffffff"
+$BrowseCsvBtn.Visible = $false
+$BrowseCsvBtn.Enabled = $false
+
+# OpenFileDialog for CSV selection
+$OpenCsvDialog = New-Object System.Windows.Forms.OpenFileDialog
+$OpenCsvDialog.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*"
+$OpenCsvDialog.Multiselect = $false
+
+$CsvPathBox.Visible = $true
+$BrowseCsvBtn.Visible = $true
+
+
+$InputCsvFileBox.Controls.AddRange(@(
+        $CsvPathBox,
+        $BrowseCsvBtn,
+        $GetDevicesFromQueryBtn,
+        $SelectedDevicesBtn,
+        $ClearSelectedDevicesBtn
+    ))
 
 $LogBoxLabel = New-Object system.Windows.Forms.Label
 $LogBoxLabel.text = "4 - Logs:"
@@ -423,7 +411,6 @@ $MainForm.Controls.Add($cancelBtn)
 #$MainForm.AutoScaleMode = 'dpi'
 
 $MainForm.controls.AddRange(@($Title,
-        $Description, 
         $ConnectionStatusLabel, 
         $ConnectionStatus,
         $cancelBtn, 
@@ -437,11 +424,10 @@ $MainForm.controls.AddRange(@($Title,
         $TitleActions, 
         $LogBoxLabel, 
         $LogBox, 
-        $QueryBoxLabel, 
         $IsolateGroupBox,
         $SaveCredCheckbox,
         $ScanGroupBox,
-        $InputRadioBox,
+        $InputCsvFileBox,
         $TagDeviceGroupBox,
         $ExportLogBtn,
         $GetActionsHistoryBtn,
@@ -480,11 +466,12 @@ function GetToken {
         $ConnectionStatus.text = "Connected"
         $ConnectionStatus.ForeColor = "#7ed321"
         $LogBox.AppendText((get-date).ToString() + " Successfully connected to Tenant ID: " + $tenantId + [Environment]::NewLine)
-        ChangeButtonColours -Buttons $GetDevicesFromQueryBtn, $SelectedDevicesBtn, $ClearSelectedDevicesBtn, $RunQueryBtn, $ExportActionsHistoryBtn, $GetActionsHistoryBtn
+        ChangeButtonColours -Buttons $GetDevicesFromQueryBtn, $SelectedDevicesBtn, $ClearSelectedDevicesBtn, $ExportActionsHistoryBtn, $GetActionsHistoryBtn, $BrowseCsvBtn
         EnableRadioButtons
         SaveCreds
         $Devicetag.Enabled = $true
-        $QueryBox.Enabled = $true
+        $CsvPathBox.Enabled = $true
+        $BrowseCsvBtn.Enabled = $true
         return $headers
     }
     else {
@@ -496,70 +483,40 @@ function GetToken {
 
 }
 
-function SaveCreds{
-    if($SaveCredCheckbox.Checked){
+function SaveCreds {
+    if ($SaveCredCheckbox.Checked) {
         $securespassword = $AppSecretBox.Text | ConvertTo-SecureString -AsPlainText -Force
         $securestring = $securespassword | ConvertFrom-SecureString
         $creds = @($TenantIdBox.Text, $AppIdBox.Text, $securestring)
         $creds | Out-File $credspath
     }
-    }
+}
 
 function ChangeButtonColours {
-        [CmdletBinding()]
-        Param (
-           [Parameter(Mandatory=$True)]
-           $Buttons
-        )
+    [CmdletBinding()]
+    Param (
+        [Parameter(Mandatory = $True)]
+        $Buttons
+    )
     $ButtonsToChangeColour = $Buttons
 
-    foreach( $Button in $ButtonsToChangeColour) {
+    foreach ( $Button in $ButtonsToChangeColour) {
         $Button.BackColor = $ClickableColour
     }
 }
 
 function EnableRadioButtons {
-    $ButtonsToEnable = $ScanRadioButton1, $ScanRadioButton2, $IsolateRadioButton1, $IsolateRadioButton2, $InputRadioButton1, 
-                        $InputRadioButton2, $InputRadioButton3
+    $ButtonsToEnable = $ScanRadioButton1, $ScanRadioButton2, $IsolateRadioButton1, $IsolateRadioButton2
 
-    foreach( $Button in $ButtonsToEnable) {
+    foreach ( $Button in $ButtonsToEnable) {
         $Button.Enabled = $true
     }
-}
-
-function GetDevice {
-    $machines = $QueryBox.Text
-    $machines = $machines.Split(",")
-    $machines = $machines.replace(' ','')
-    $script:selectedmachines = @{}
-    foreach($machine in $machines){
-        Start-Sleep -Seconds 2
-        $MachineName = $machine
-        $url = "https://api.securitycenter.windows.com/api/machines/$MachineName"  
-        $webResponse = Invoke-RestMethod -Method Get -Uri $url -Headers $headers -ErrorAction Stop
-        $MachineId = $webResponse.id
-        if (-not $script:selectedmachines.contains($machine)) {
-            $script:selectedmachines.Add($MachineName, $MachineId)
-        }
-    }
-    $filtermachines = $script:selectedmachines | Out-GridView -Title "Select devices to perform action on:" -PassThru 
-    $script:selectedmachines.clear()
-    foreach ($machine in $filtermachines) {
-        $script:selectedmachines.Add($machine.Name, $machine.Value)
-    }
-    if ($script:selectedmachines.Keys.Count -gt 0) {
-        ChangeButtonColours -Buttons $TagDeviceBtn, $ScanDeviceBtn, $IsolateDeviceBtn, $ReleaseFromIsolationBtn, $ExportActionsHistoryBtn, $GetActionsHistoryBtn
-        $SelectedDevicesBtn.Visible = $true
-        $SelectedDevicesBtn.text = "Selected Devices (" + $script:selectedmachines.Keys.count + ")"
-        $ClearSelectedDevicesBtn.Visible = $true
-    }
-    $LogBox.AppendText((get-date).ToString() + " Devices selected count: " + ($script:selectedmachines.Keys.count -join [Environment]::NewLine) + [Environment]::NewLine + ($script:selectedmachines.Keys -join [Environment]::NewLine) + [Environment]::NewLine)
 }
 
 
 function TagDevice {
     $script:selectedmachines.GetEnumerator() | foreach-object {
-        Start-Sleep -Seconds 2
+        Start-Sleep -Seconds 1
         $MachineId = $_.value
         $MachineTag = $DeviceTag.Text
         $body = @{
@@ -578,7 +535,8 @@ function TagDevice {
             }
         }
         if ($null -ne $webResponse.statuscode) { 
-            $LogBox.AppendText((get-date).ToString() + " Applying machine tag: " + $MachineTag + " Machine Name: " + $_.Key + " Status code: " + $webResponse.statuscode + [Environment]::NewLine) }
+            $LogBox.AppendText((get-date).ToString() + " Applying machine tag: " + $MachineTag + " Machine Name: " + $_.Key + " Status code: " + $webResponse.statuscode + [Environment]::NewLine) 
+        }
         
     }
 }
@@ -587,7 +545,7 @@ function TagDevice {
 
 function ScanDevice {
     $script:selectedmachines.GetEnumerator() | foreach-object {
-        Start-Sleep -Seconds 2
+        Start-Sleep -Seconds 1
         $machineid = $_.Value
         if ($ScanRadioButton1.Checked) { $ScanMode = 'Full' } else { $ScanMode = 'Quick' }
         $body = @{
@@ -610,12 +568,12 @@ function ScanDevice {
 
 function IsolateDevice {
     $script:selectedmachines.GetEnumerator() | foreach-object {
-        Start-Sleep -Seconds 2
+        Start-Sleep -Seconds 1
         $machineid = $_.Value
         $IsolationType = 'Selective'
         if ($IsolateRadioButton1.Checked) { $IsolationType = 'Full' }
         $body = @{
-            "Comment"  = "Isolating device";
+            "Comment"       = "Isolating device";
             "IsolationType" = $IsolationType;
         }
         $url = "https://api.securitycenter.windows.com/api/machines/$machineid/isolate" 
@@ -636,10 +594,10 @@ function IsolateDevice {
 
 function ReleaseFromIsolation {
     $script:selectedmachines.GetEnumerator() | foreach-object {
-        Start-Sleep -Seconds 2
+        Start-Sleep -Seconds 1
         $machineid = $_.Value
         $body = @{
-            "Comment"  = "Releasing device from isolation";
+            "Comment" = "Releasing device from isolation";
         }
         $url = "https://api.securitycenter.windows.com/api/machines/$machineid/unisolate" 
         try { $webResponse = Invoke-WebRequest -Method Post -Uri $url -Headers $headers -Body ($body | ConvertTo-Json) -ContentType "application/json" -ErrorAction Stop }
@@ -661,10 +619,10 @@ function ReleaseFromIsolation {
 # This function is not present in GUI to avoid any unwanted changes to the environments
 function OffboardDevice {
     $script:selectedmachines.GetEnumerator() | foreach-object {
-        Start-Sleep -Seconds 2
+        Start-Sleep -Seconds 1
         $machineid = $_.Value
         $body = @{
-            "Comment"  = "Offboarding machine using API";
+            "Comment" = "Offboarding machine using API";
         }
         $url = "https://api.securitycenter.windows.com/api/machines/$machineid/offboard" 
         try { $webResponse = Invoke-WebRequest -Method Post -Uri $url -Headers $headers -Body ($body | ConvertTo-Json) -ContentType "application/json" -ErrorAction Stop }
@@ -680,66 +638,6 @@ function OffboardDevice {
         }
         if ($null -ne $webResponse.statuscode) { $LogBox.AppendText("Offboarding machine: " + [Environment]::NewLine + " Machine Name: " + $_.Key + " Status code: " + $webResponse.statuscode + [Environment]::NewLine) }
     }
-}
-
-
-function RunQuery {
-    Start-Sleep -Seconds 2
-    $url = "https://api.securitycenter.windows.com/api/advancedqueries/run"  
-    $body = @{
-        "Query" = $QueryBox.Text;
-    }
-    try { $webResponse = Invoke-WebRequest -Method Post -Uri $url -Headers $headers -Body ($body | ConvertTo-Json) -ContentType "application/json" -ErrorAction Stop }
-    Catch {
-        if ($_.ErrorDetails.Message) {
-            [System.Windows.Forms.MessageBox]::Show("ErrorMessage: " + $_.ErrorDetails.Message , "Error")
-        }
-        else {
-            $LogBox.AppendText((get-date).ToString() + " Status: " + $webResponse.StatusCode)
-        }
-    }
-    $LogBox.AppendText((get-date).ToString() + " Query Results: " + $webresponse + [Environment]::NewLine)
-}
-
-function GetDevicesFromQuery {
-    if($InputRadioButton1.Checked -and (-not (($QueryBox.Text).contains('distinct') -and ($QueryBox.Text).contains('DeviceId')))){ 
-        $QueryBox.Text = $QueryBox.Text + [Environment]::NewLine + "| distinct DeviceName, DeviceId"
-        [System.Windows.Forms.MessageBox]::Show("Query should return DeviceName and DeviceId. `nAppending `"| distinct DeviceName, DeviceId`" to the query.", "Warning")
-        } 
-    $url = "https://api.securitycenter.windows.com/api/advancedqueries/run"
-    $body = @{
-        "Query" = $QueryBox.Text;
-    }
-    $LogBox.AppendText((get-date).ToString() + " Executing query: " + $QueryBox.Text + [Environment]::NewLine) 
-    try { $webResponse = Invoke-WebRequest -Method Post -Uri $url -Headers $headers -Body ($body | ConvertTo-Json) -ContentType "application/json" -ErrorAction Stop }
-    Catch {
-        if ($_.ErrorDetails.Message) {
-            [System.Windows.Forms.MessageBox]::Show("ErrorMessage: " + $_.ErrorDetails.Message , "Error")
-        }
-        else {
-            $LogBox.AppendText((get-date).ToString() + " Status: " + $webResponse.StatusCode)
-        }
-    }
-    $results = ($webResponse | ConvertFrom-Json).Results
-    $LogBox.AppendText("Query results returned: " + $results.count + [Environment]::NewLine) 
-    $script:selectedmachines = @{}
-    foreach ($result in $results) {
-        if (-not $script:selectedmachines.contains($result.DeviceName)) {
-            $script:selectedmachines.Add($result.DeviceName, $result.DeviceId)
-        }
-    }
-    $filtermachines = $script:selectedmachines | Out-GridView -Title "Select devices to perform action on:" -PassThru 
-    $script:selectedmachines.clear()
-    foreach ($machine in $filtermachines) {
-        $script:selectedmachines.Add($machine.Name, $machine.Value)
-    }
-    if ($script:selectedmachines.Keys.Count -gt 0) {
-        ChangeButtonColours -Buttons $TagDeviceBtn, $ScanDeviceBtn, $IsolateDeviceBtn, $ReleaseFromIsolationBtn, $ExportActionsHistoryBtn, $GetActionsHistoryBtn
-        $SelectedDevicesBtn.Visible = $true
-        $SelectedDevicesBtn.text = "Selected Devices (" + $script:selectedmachines.Keys.count + ")"
-        $ClearSelectedDevicesBtn.Visible = $true
-    }
-    $LogBox.AppendText((get-date).ToString() + " Devices selected count: " + ($script:selectedmachines.Keys.count -join [Environment]::NewLine) + [Environment]::NewLine + ($script:selectedmachines.Keys -join [Environment]::NewLine) + [Environment]::NewLine)
 }
 
 function ViewSelectedDevices {
@@ -766,35 +664,36 @@ function ClearSelectedDevices {
 
 
 function GetDevicesFromCsv {
-    if((Test-Path $QueryBox.Text) -and ($QueryBox.Text).EndsWith(".csv")) {
-    $machines = Import-Csv -Path $QueryBox.Text
-    $script:selectedmachines = @{}
-    $LogBox.AppendText("Quering " + $machines.count + " machines from CSV file." + [Environment]::NewLine)
-    foreach($machine in $machines){
-        Start-Sleep -Seconds 2
-        $MachineName = $machine.Name
-        $url = "https://api.securitycenter.windows.com/api/machines/$MachineName"  
-        $webResponse = Invoke-RestMethod -Method Get -Uri $url -Headers $headers -ErrorAction Stop
-        $MachineId = $webResponse.id
-        if (-not $script:selectedmachines.contains($machine.Name)) {
-            $script:selectedmachines.Add($machine.Name, $MachineId)
+    if ((Test-Path $CsvPathBox.Text) -and ($CsvPathBox.Text).EndsWith(".csv")) {
+        $machines = Import-Csv -Path $CsvPathBox.Text
+        $script:selectedmachines = @{}
+        $LogBox.AppendText("Quering " + $machines.count + " machines from CSV file... Please wait" + [Environment]::NewLine)
+        foreach ($machine in $machines) {
+            # Add sleep if needed to avoid throttling
+            # Start-Sleep -Seconds 1
+            $MachineName = $machine.Name
+            $url = "https://api.securitycenter.windows.com/api/machines/$MachineName"  
+            $webResponse = Invoke-RestMethod -Method Get -Uri $url -Headers $headers -ErrorAction Stop
+            $MachineId = $webResponse.id
+            if (-not $script:selectedmachines.contains($machine.Name)) {
+                $script:selectedmachines.Add($machine.Name, $MachineId)
+            }
         }
-    }
-    $filtermachines = $script:selectedmachines | Out-GridView -Title "Select devices to perform action on:" -PassThru 
-    $script:selectedmachines.clear()
-    foreach ($machine in $filtermachines) {
-        $script:selectedmachines.Add($machine.Name, $machine.Value)
-    }
-    if ($script:selectedmachines.Keys.Count -gt 0) {
-        ChangeButtonColours -Buttons $TagDeviceBtn, $ScanDeviceBtn, $IsolateDeviceBtn, $ReleaseFromIsolationBtn
-        $SelectedDevicesBtn.Visible = $true
-        $SelectedDevicesBtn.text = "Selected Devices (" + $script:selectedmachines.Keys.count + ")"
-        $ClearSelectedDevicesBtn.Visible = $true
-    }
-    $LogBox.AppendText((get-date).ToString() + " Devices selected count: " + ($script:selectedmachines.Keys.count -join [Environment]::NewLine) + [Environment]::NewLine + ($script:selectedmachines.Keys -join [Environment]::NewLine) + [Environment]::NewLine)
+        $filtermachines = $script:selectedmachines | Out-GridView -Title "Select devices to perform action on:" -PassThru 
+        $script:selectedmachines.clear()
+        foreach ($machine in $filtermachines) {
+            $script:selectedmachines.Add($machine.Name, $machine.Value)
+        }
+        if ($script:selectedmachines.Keys.Count -gt 0) {
+            ChangeButtonColours -Buttons $TagDeviceBtn, $ScanDeviceBtn, $IsolateDeviceBtn, $ReleaseFromIsolationBtn
+            $SelectedDevicesBtn.Visible = $true
+            $SelectedDevicesBtn.text = "Selected Devices (" + $script:selectedmachines.Keys.count + ")"
+            $ClearSelectedDevicesBtn.Visible = $true
+        }
+        $LogBox.AppendText((get-date).ToString() + " Devices selected count: " + ($script:selectedmachines.Keys.count -join [Environment]::NewLine) + [Environment]::NewLine + ($script:selectedmachines.Keys -join [Environment]::NewLine) + [Environment]::NewLine)
     } 
     else {
-        [System.Windows.Forms.MessageBox]::Show($QueryBox.Text + " is not a valid CSV path." , "Error")
+        [System.Windows.Forms.MessageBox]::Show($CsvPathBox.Text + " is not a valid CSV path." , "Error")
     }
 }
 
@@ -813,7 +712,7 @@ function GetActionsHistory {
     }
     $results = ($webResponse.Content | Convertfrom-json).value
     $LogBox.AppendText((get-date).ToString() + " Status: " + $webResponse.StatusCode + " Machine actions count: " + $results.count + [Environment]::NewLine)
-    $LogBox.AppendText((get-date).ToString() + " Last 10 machine actions: " + ($results | Select-Object type,computerDnsName,status -First 10 | Out-string) + [Environment]::NewLine)
+    $LogBox.AppendText((get-date).ToString() + " Last 10 machine actions: " + ($results | Select-Object type, computerDnsName, status -First 10 | Out-string) + [Environment]::NewLine)
     $results | Out-GridView -Title "Actions History" -PassThru 
 }
 
@@ -836,7 +735,7 @@ function ExportActionsHistory {
 }
 
 
-function ExportLog{
+function ExportLog {
     $LogBox.Text | Out-file .\mde_ui_log.txt
     $LogBox.AppendText((get-date).ToString() + " Log file created: " + (Get-Item .\mde_ui_log.txt).FullName + [Environment]::NewLine)
 }
@@ -844,7 +743,7 @@ function ExportLog{
 #===========================================================[Script]===========================================================
 
 
-if(test-path $credspath){
+if (test-path $credspath) {
     $creds = Get-Content $credspath
     $pass = $creds[2] | ConvertTo-SecureString
     $unsecurePassword = [PSCredential]::new(0, $pass).GetNetworkCredential().Password
@@ -864,16 +763,17 @@ $IsolateDeviceBtn.Add_Click({ IsolateDevice })
 
 $ReleaseFromIsolationBtn.Add_Click({ ReleaseFromIsolation })
 
-$RunQueryBtn.Add_Click({ RunQuery })
+$GetDevicesFromQueryBtn.Add_Click({ GetDevicesFromCsv })
 
-$GetDevicesFromQueryBtn.Add_Click({ 
-    if ($InputRadioButton1.Checked){
-    GetDevicesFromQuery }
- elseif ($InputRadioButton2.Checked){
-    GetDevice }
- elseif ($InputRadioButton3.Checked){
-    GetDevicesFromCsv }
-})
+$BrowseCsvBtn.Add_Click({
+        if ($OpenCsvDialog.ShowDialog() -eq [System.Windows.Forms.DialogResult]::OK) {
+            $CsvPathBox.Text = $OpenCsvDialog.FileName
+            # show selected path in log
+            $LogBox.AppendText((get-date).ToString() + " Selected CSV: " + $CsvPathBox.Text + [Environment]::NewLine)
+            # enable the GetDevicesFromQueryBtn so user can proceed
+            $GetDevicesFromQueryBtn.BackColor = $ClickableColour
+        }
+    })
 
 $SelectedDevicesBtn.Add_Click({ ViewSelectedDevices })
 
