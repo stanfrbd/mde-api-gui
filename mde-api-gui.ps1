@@ -187,11 +187,26 @@ $TagDeviceBtn.location = New-Object System.Drawing.Point(280, 15)
 $TagDeviceBtn.Font = 'Microsoft Sans Serif,10'
 $TagDeviceBtn.ForeColor = "#ffffff"
 $TagDeviceBtn.Visible = $true
+$TagDeviceBtn.Enabled = $false
 
-$TagDeviceGroupBox.Controls.AddRange(@($DeviceTag, $TagDeviceBtn))
+# enlarge groupbox to fit new button
+$TagDeviceGroupBox.Height = 90
+
+$RemoveTagBtn = New-Object System.Windows.Forms.Button
+$RemoveTagBtn.BackColor = $UnclickableColour
+$RemoveTagBtn.Text = "Remove Tag"
+$RemoveTagBtn.Width = 110
+$RemoveTagBtn.Height = 30
+$RemoveTagBtn.Location = New-Object System.Drawing.Point(280, 50)
+$RemoveTagBtn.Font = 'Microsoft Sans Serif,10'
+$RemoveTagBtn.ForeColor = "#ffffff"
+$RemoveTagBtn.Visible = $true
+$RemoveTagBtn.Enabled = $false
+
+$TagDeviceGroupBox.Controls.AddRange(@($DeviceTag, $TagDeviceBtn, $RemoveTagBtn))
 
 $ScanGroupBox = New-Object System.Windows.Forms.GroupBox
-$ScanGroupBox.Location = New-Object System.Drawing.Point(500, 105)
+$ScanGroupBox.Location = New-Object System.Drawing.Point(500, 140)    # moved down to avoid overlap with TagDeviceGroupBox
 $ScanGroupBox.width = 400
 $ScanGroupBox.height = 50
 $ScanGroupBox.Text = "Scan mode"
@@ -228,7 +243,7 @@ $ScanDeviceBtn.Visible = $true
 $ScanGroupBox.Controls.AddRange(@($ScanRadioButton1, $ScanRadioButton2, $ScanDeviceBtn))
 
 $IsolateGroupBox = New-Object System.Windows.Forms.GroupBox
-$IsolateGroupBox.Location = '500,165'
+$IsolateGroupBox.Location = New-Object System.Drawing.Point(500, 200)  # moved down to sit below ScanGroupBox
 $IsolateGroupBox.Width = 400
 $IsolateGroupBox.height = 90
 $IsolateGroupBox.text = "Isolation"
@@ -514,7 +529,7 @@ function EnableRadioButtons {
 }
 
 
-function TagDevice {
+function AddTagDevice {
     $script:selectedmachines.GetEnumerator() | foreach-object {
         Start-Sleep -Seconds 1
         $MachineId = $_.value
@@ -538,6 +553,41 @@ function TagDevice {
             $LogBox.AppendText((get-date).ToString() + " Applying machine tag: " + $MachineTag + " Machine Name: " + $_.Key + " Status code: " + $webResponse.statuscode + [Environment]::NewLine) 
         }
         
+    }
+}
+
+function RemoveTagDevice {
+    $script:selectedmachines.GetEnumerator() | ForEach-Object {
+        Start-Sleep -Seconds 1
+        $MachineId = $_.Value
+        $MachineTag = $DeviceTag.Text
+
+        if ([string]::IsNullOrWhiteSpace($MachineTag)) {
+            [System.Windows.Forms.MessageBox]::Show("Please specify a tag to remove.", "Information")
+            return
+        }
+
+        $body = @{
+            "Value"  = $MachineTag;
+            "Action" = "Remove";
+        }
+
+        $url = "https://api.securitycenter.windows.com/api/machines/$MachineId/tags"
+        try {
+            $webResponse = Invoke-WebRequest -Method Post -Uri $url -Headers $headers -Body ($body | ConvertTo-Json) -ContentType "application/json" -ErrorAction Stop
+        }
+        catch {
+            if ($_.ErrorDetails.Message) {
+                [System.Windows.Forms.MessageBox]::Show("ErrorMessage: " + $_.ErrorDetails.Message , "Error")
+            }
+            else {
+                [System.Windows.Forms.MessageBox]::Show("Status: " + $webResponse.StatusCode)
+            }
+        }
+
+        if ($null -ne $webResponse.statuscode) {
+            $LogBox.AppendText((Get-Date).ToString() + " Removing machine tag: " + $MachineTag + " Machine Name: " + $_.Key + " Status code: " + $webResponse.statuscode + [Environment]::NewLine)
+        }
     }
 }
 
@@ -685,8 +735,10 @@ function GetDevicesFromCsv {
             $script:selectedmachines.Add($machine.Name, $machine.Value)
         }
         if ($script:selectedmachines.Keys.Count -gt 0) {
-            ChangeButtonColours -Buttons $TagDeviceBtn, $ScanDeviceBtn, $IsolateDeviceBtn, $ReleaseFromIsolationBtn
+            ChangeButtonColours -Buttons $TagDeviceBtn, $RemoveTagBtn, $ScanDeviceBtn, $IsolateDeviceBtn, $ReleaseFromIsolationBtn
             $SelectedDevicesBtn.Visible = $true
+            $TagDeviceBtn.Enabled = $true
+            $RemoveTagBtn.Enabled = $true
             $SelectedDevicesBtn.text = "Selected Devices (" + $script:selectedmachines.Keys.count + ")"
             $ClearSelectedDevicesBtn.Visible = $true
         }
@@ -755,7 +807,9 @@ if (test-path $credspath) {
 
 $ConnectBtn.Add_Click({ GetToken })
 
-$TagDeviceBtn.Add_Click({ TagDevice })
+$TagDeviceBtn.Add_Click({ AddTagDevice })
+
+$RemoveTagBtn.Add_Click({ RemoveTagDevice })
 
 $ScanDeviceBtn.Add_Click({ ScanDevice })
 
