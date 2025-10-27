@@ -347,6 +347,17 @@ $BrowseCsvBtn.ForeColor = "#ffffff"
 $BrowseCsvBtn.Visible = $false
 $BrowseCsvBtn.Enabled = $false
 
+# add a label with short description of what to do with the CSV (should have "Name" header and only hostnames) under the browse button
+$CsvDescLabel = New-Object system.Windows.Forms.Label
+$CsvDescLabel.text = "Select a CSV file with a 'Name' header (one single column) containing hostnames (one per line)."
+$CsvDescLabel.width = 700
+$CsvDescLabel.height = 40
+$CsvDescLabel.location = New-Object System.Drawing.Point(20, 90)
+$CsvDescLabel.Font = 'Microsoft Sans Serif,9'
+# use a visible colour (black) on the white form background
+$CsvDescLabel.ForeColor = "#000000"
+$CsvDescLabel.Visible = $true
+
 # OpenFileDialog for CSV selection
 $OpenCsvDialog = New-Object System.Windows.Forms.OpenFileDialog
 $OpenCsvDialog.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*"
@@ -359,6 +370,7 @@ $BrowseCsvBtn.Visible = $true
 $InputCsvFileBox.Controls.AddRange(@(
         $CsvPathBox,
         $BrowseCsvBtn,
+        $CsvDescLabel,
         $GetDevicesFromQueryBtn,
         $SelectedDevicesBtn,
         $ClearSelectedDevicesBtn
