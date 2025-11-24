@@ -7,7 +7,7 @@ Forked from Microsoft repo (MIT Licensed): https://github.com/microsoft/mde-api-
 > This project has nothing to do with Microsoft.
 
 > [!NOTE]
-> If you intend to use this with many machines (100+), consider adding throttling handling to avoid API rate limiting. And note that it takes a lot of time to process many machines in sequence=> 100 machines ~ 1min30s
+> If you intend to use this with many machines (100+), consider adding throttling handling to avoid API rate limiting. There is already one with 500 milliseconds delay between each request, but it may not be enough. And note that it takes a lot of time to process many machines in sequence=> 100 machines ~ 1min30s
 
 ## Pros
 
