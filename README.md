@@ -6,6 +6,9 @@ Forked from Microsoft repo (MIT Licensed): https://github.com/microsoft/mde-api-
 > [!IMPORTANT]
 > This project has nothing to do with Microsoft.
 
+> [!NOTE]
+> If you intend to use this with many machines (100+), consider adding throttling handling to avoid API rate limiting. And note that it takes a lot of time to process many machines in sequence=> 100 machines ~ 1min30s
+
 ## Pros
 
 - No installation of SDK needed

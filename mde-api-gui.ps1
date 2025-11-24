@@ -543,7 +543,7 @@ function EnableRadioButtons {
 
 function AddTagDevice {
     $script:selectedmachines.GetEnumerator() | foreach-object {
-        Start-Sleep -Seconds 1
+        Start-Sleep -Milliseconds 500
         $MachineId = $_.value
         $MachineTag = $DeviceTag.Text
         $body = @{
@@ -570,7 +570,7 @@ function AddTagDevice {
 
 function RemoveTagDevice {
     $script:selectedmachines.GetEnumerator() | ForEach-Object {
-        Start-Sleep -Seconds 1
+        Start-Sleep -Milliseconds 500
         $MachineId = $_.Value
         $MachineTag = $DeviceTag.Text
 
@@ -607,7 +607,7 @@ function RemoveTagDevice {
 
 function ScanDevice {
     $script:selectedmachines.GetEnumerator() | foreach-object {
-        Start-Sleep -Seconds 1
+        Start-Sleep -Milliseconds 500
         $machineid = $_.Value
         if ($ScanRadioButton1.Checked) { $ScanMode = 'Full' } else { $ScanMode = 'Quick' }
         $body = @{
@@ -630,7 +630,7 @@ function ScanDevice {
 
 function IsolateDevice {
     $script:selectedmachines.GetEnumerator() | foreach-object {
-        Start-Sleep -Seconds 1
+        Start-Sleep -Milliseconds 500
         $machineid = $_.Value
         $IsolationType = 'Selective'
         if ($IsolateRadioButton1.Checked) { $IsolationType = 'Full' }
@@ -656,7 +656,7 @@ function IsolateDevice {
 
 function ReleaseFromIsolation {
     $script:selectedmachines.GetEnumerator() | foreach-object {
-        Start-Sleep -Seconds 1
+        Start-Sleep -Milliseconds 500
         $machineid = $_.Value
         $body = @{
             "Comment" = "Releasing device from isolation";
@@ -681,7 +681,7 @@ function ReleaseFromIsolation {
 # This function is not present in GUI to avoid any unwanted changes to the environments
 function OffboardDevice {
     $script:selectedmachines.GetEnumerator() | foreach-object {
-        Start-Sleep -Seconds 1
+        Start-Sleep -Milliseconds 500
         $machineid = $_.Value
         $body = @{
             "Comment" = "Offboarding machine using API";
@@ -732,7 +732,7 @@ function GetDevicesFromCsv {
         $LogBox.AppendText("Quering " + $machines.count + " machines from CSV file... Please wait" + [Environment]::NewLine)
         foreach ($machine in $machines) {
             # Add sleep if needed to avoid throttling
-            # Start-Sleep -Seconds 1
+            Start-Sleep -Milliseconds 500
             $MachineName = $machine.Name
             $url = "https://api.securitycenter.windows.com/api/machines/$MachineName"  
             $webResponse = Invoke-RestMethod -Method Get -Uri $url -Headers $headers -ErrorAction Stop
