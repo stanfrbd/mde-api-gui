@@ -46,3 +46,9 @@ Forked from Microsoft repo (MIT Licensed): https://github.com/microsoft/mde-api-
     * Run **AV Scan**.
     * **Isolate**/Release device.
 5. Verify actions result with **Logs** text box.
+
+## TODO (may or may not be implemented)
+
+* MDE Network Contain
+* MDE Device Contain (different API)
+* Disable device in Entra ID (different API)
