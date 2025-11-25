@@ -16,6 +16,7 @@ Forked from Microsoft repo (MIT Licensed): https://github.com/microsoft/mde-api-
 - Very useful in case of critical incident
 - Has a file picker for CSV
 - Can Add / Remove tags
+- Added supported for unmanaged device isolation type (new in MDE API); it will basically do a "Network contain" action on unmanaged devices, since there isn't the agent to enforce isolation.
 
 ## Cons
 
@@ -49,6 +50,4 @@ Forked from Microsoft repo (MIT Licensed): https://github.com/microsoft/mde-api-
 
 ## TODO (may or may not be implemented)
 
-* MDE Network Contain
-* MDE Device Contain (different API)
 * Disable device in Entra ID (different API)

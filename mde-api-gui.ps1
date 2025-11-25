@@ -271,6 +271,22 @@ $IsolateDeviceBtn = New-Object system.Windows.Forms.Button
 $IsolateDeviceBtn.BackColor = $UnclickableColour
 $IsolateDeviceBtn.text = "Isolate Device"
 $IsolateDeviceBtn.width = 110
+
+$IsolateRadioButton3 = New-Object System.Windows.Forms.RadioButton
+$IsolateRadioButton3.width = 120
+$IsolateRadioButton3.height = 20
+$IsolateRadioButton3.location = New-Object System.Drawing.Point(20, 45)
+$IsolateRadioButton3.Checked = $false
+$IsolateRadioButton3.Enabled = $false
+$IsolateRadioButton3.Text = "UnManagedDevice"
+$IsolateRadioButton3.Font = 'Microsoft Sans Serif,8'
+# add hover text to explain what UnManagedDevice means
+$IsolateRadioButton3.Add_MouseHover({
+        $toolTip = New-Object System.Windows.Forms.ToolTip
+        $toolTip.SetToolTip($IsolateRadioButton3, "The isolation targets unmanaged devices only.")
+    })
+
+$IsolateDeviceBtn.width = 110
 $IsolateDeviceBtn.height = 30
 $IsolateDeviceBtn.location = New-Object System.Drawing.Point(280, 15)
 $IsolateDeviceBtn.Font = 'Microsoft Sans Serif,10'
@@ -287,7 +303,7 @@ $ReleaseFromIsolationBtn.Font = 'Microsoft Sans Serif,10'
 $ReleaseFromIsolationBtn.ForeColor = "#ffffff"
 $ReleaseFromIsolationBtn.Visible = $true
 
-$IsolateGroupBox.Controls.AddRange(@($IsolateRadioButton1, $IsolateRadioButton2, $IsolateDeviceBtn, $ReleaseFromIsolationBtn))
+$IsolateGroupBox.Controls.AddRange(@($IsolateRadioButton1, $IsolateRadioButton2, $IsolateRadioButton3, $IsolateDeviceBtn, $ReleaseFromIsolationBtn))
 
 $InputCsvFileBox = New-Object System.Windows.Forms.GroupBox
 $InputCsvFileBox.width = 880
@@ -533,7 +549,7 @@ function ChangeButtonColours {
 }
 
 function EnableRadioButtons {
-    $ButtonsToEnable = $ScanRadioButton1, $ScanRadioButton2, $IsolateRadioButton1, $IsolateRadioButton2
+    $ButtonsToEnable = $ScanRadioButton1, $ScanRadioButton2, $IsolateRadioButton1, $IsolateRadioButton2, $IsolateRadioButton3
 
     foreach ( $Button in $ButtonsToEnable) {
         $Button.Enabled = $true
@@ -634,6 +650,7 @@ function IsolateDevice {
         $machineid = $_.Value
         $IsolationType = 'Selective'
         if ($IsolateRadioButton1.Checked) { $IsolationType = 'Full' }
+        elseif ($IsolateRadioButton3.Checked) { $IsolationType = 'UnManagedDevice' }
         $body = @{
             "Comment"       = "Isolating device";
             "IsolationType" = $IsolationType;
