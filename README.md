@@ -23,7 +23,7 @@ Forked from Microsoft repo (MIT Licensed): https://github.com/microsoft/mde-api-
 - Will be more difficult to keep up to date
 - Disabled Advanced Query research, now has only one option: CSV import.
 
-<img width="943" height="824" alt="image" src="https://github.com/user-attachments/assets/90c1090f-6ab7-4a83-a158-2dc12871afd6" />
+<img width="945" height="825" alt="image" src="https://github.com/user-attachments/assets/7dd1e3a9-1dfb-4054-8852-601b6910a31f" />
 
 ## Get started
 1. Create Azure AD application as described here: https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/apis-intro?view=o365-worldwide
