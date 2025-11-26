@@ -690,7 +690,7 @@ function ReleaseFromIsolation {
                 [System.Windows.Forms.MessageBox]::Show("Status: " + $webResponse.StatusCode)
             }
         }
-        if ($null -ne $webResponse.statuscode) { $LogBox.AppendText($IsolationType + " Releasing isolation on: " + " Machine Name: " + $_.Key + " Status code: " + $webResponse.statuscode + [Environment]::NewLine) }
+        if ($null -ne $webResponse.statuscode) { $LogBox.AppendText((get-date).ToString() + " Releasing isolation on: " + " Machine Name: " + $_.Key + " Status code: " + $webResponse.statuscode + [Environment]::NewLine) }
     }
 }
 
